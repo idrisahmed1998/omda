@@ -184,13 +184,40 @@
       });
     }
 
-    function openModal(product) {
-      document.getElementById("modal-img").src = product.img;
-      document.getElementById("modal-title").textContent = product.title;
-      document.getElementById("modal-desc").textContent = product.desc;
-      document.getElementById("modal-price").innerHTML = `<strong>$${product.price} = ${(product.price * exchangeRate).toLocaleString()} SDG</strong>`;
-      document.getElementById("modal").style.display = "flex";
-    }
+  
+function openModal(product) {
+  document.getElementById("modal-img").src = product.img;
+  document.getElementById("modal-title").textContent = product.title;
+  document.getElementById("modal-desc").textContent = product.desc;
+  document.getElementById("modal-price").innerHTML = `<strong>$${product.price} = ${(product.price * exchangeRate).toLocaleString()} SDG</strong>`;
+
+  const whatsappLink = `https://wa.me/249113833235?text=${encodeURIComponent(`مرحباً، أود طلب المنتج: ${product.title} بسعر $${product.price}`)}`;
+
+  // إضافة زر واتساب داخل النافذة
+  const modal = document.getElementById("modal");
+  const button = document.createElement("a");
+  button.href = whatsappLink;
+  button.target = "_blank";
+  button.textContent = "📱 طلب المنتج عبر واتساب";
+  button.style = `
+    display: inline-block;
+    margin-top: 1rem;
+    background: #25D366;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+  `;
+
+  // إزالة أي زر قديم ثم إضافته
+  const oldButton = document.getElementById("whatsapp-order");
+  if (oldButton) oldButton.remove();
+  button.id = "whatsapp-order";
+  document.querySelector(".modal-content").appendChild(button);
+
+  modal.style.display = "flex";
+}
 
     function closeModal() {
       document.getElementById("modal").style.display = "none";
