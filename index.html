@@ -14,7 +14,7 @@
       color: #222;
     }
     header {
-      background-color: #111;
+      background-color: #002141;
       color: #fff;
       padding: 1rem;
       text-align: center;
@@ -24,7 +24,7 @@
       justify-content: center;
       gap: 1rem;
       flex-wrap: wrap;
-      background: #333;
+      background: #003366;
       padding: 0.5rem;
     }
     nav button {
@@ -35,41 +35,38 @@
       border-radius: 8px;
       font-weight: bold;
     }
-    .products {
+    .product-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1rem;
       padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
     }
-    .card {
+    .product-card {
       background: #fff;
-      border-radius: 10px;
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.3s;
+      transition: transform 0.3s ease;
     }
-    .card:hover {
+    .product-card:hover {
       transform: scale(1.03);
     }
-    .card img {
-      width: 100%;
+    .product-card img {
+      max-width: 100%;
+      border-radius: 10px;
       height: 200px;
       object-fit: cover;
     }
-    .card-body {
-      padding: 1rem;
-      text-align: center;
-    }
     footer {
-      background: #111;
+      background: #002141;
       color: #fff;
       text-align: center;
       padding: 1rem;
       margin-top: 2rem;
     }
-    .tabs-content { display: none; }
-    .tabs-content.active { display: block; }
   </style>
 </head>
 <body>
@@ -79,17 +76,14 @@
   </header>
 
   <nav>
-    <button onclick="showTab('starlink')">تنشيط Starlink</button>
-    <button onclick="showTab('games')">شحن ألعاب وجواهر</button>
-    <button onclick="showTab('apps')">شحن تطبيقات ونجوم</button>
-    <button onclick="showTab('shopping')">شراء أونلاين</button>
+    <button onclick="filterCategory('starlink')">تنشيط Starlink</button>
+    <button onclick="filterCategory('games')">شحن ألعاب وجواهر</button>
+    <button onclick="filterCategory('apps')">شحن نجوم/تطبيقات</button>
+    <button onclick="filterCategory('shopping')">شراء منتجات أونلاين</button>
   </nav>
 
-  <div id="tabs">
-    <div id="starlink" class="tabs-content active products"></div>
-    <div id="games" class="tabs-content products"></div>
-    <div id="apps" class="tabs-content products"></div>
-    <div id="shopping" class="tabs-content products"></div>
+  <div class="product-grid" id="product-list">
+    <!-- المنتجات تُملأ هنا تلقائياً -->
   </div>
 
   <footer>
@@ -97,62 +91,55 @@
   </footer>
 
   <script>
-    const exchangeRate = 3500;
+    const exchangeRate = 3500; // سعر الدولار مقابل الجنيه السوداني
     const products = [
-      { title: "Starlink Residential", category: "starlink", price: 110, img: "https://i.imgur.com/1.jpg", desc: "باقة منزلية" },
-      { title: "Starlink Business", category: "starlink", price: 500, img: "https://i.imgur.com/2.jpg", desc: "باقة الشركات" },
-      { title: "Starlink Roam", category: "starlink", price: 150, img: "https://i.imgur.com/3.jpg", desc: "للتنقل" },
-      { title: "Starlink Maritime", category: "starlink", price: 1000, img: "https://i.imgur.com/4.jpg", desc: "للبحر" },
-      { title: "Starlink Global", category: "starlink", price: 200, img: "https://i.imgur.com/5.jpg", desc: "لكل العالم" },
-      { title: "Starlink Priority", category: "starlink", price: 250, img: "https://i.imgur.com/6.jpg", desc: "باقة خاصة" },
-      { title: "Starlink Backup", category: "starlink", price: 120, img: "https://i.imgur.com/7.jpg", desc: "احتياطي" },
-
-      { title: "جواهر فري فاير", category: "games", price: 10, img: "https://i.imgur.com/bymTQ3N.jpeg", desc: "100 جوهرة" },
-      { title: "UC ببجي", category: "games", price: 15, img: "https://i.imgur.com/IDT7PwX.jpeg", desc: "60 UC" },
-      { title: "شدات كول اوف ديوتي", category: "games", price: 12, img: "https://i.imgur.com/8.jpg", desc: "120 CP" },
-      { title: "بطاقات بلاي ستيشن", category: "games", price: 20, img: "https://i.imgur.com/9.jpg", desc: "$20 PSN" },
-      { title: "بطاقات اكس بوكس", category: "games", price: 20, img: "https://i.imgur.com/10.jpg", desc: "$20 Xbox" },
-      { title: "جواهر موبايل ليجند", category: "games", price: 8, img: "https://i.imgur.com/11.jpg", desc: "100 Diamond" },
-      { title: "باقة الألعاب المتنوعة", category: "games", price: 30, img: "https://i.imgur.com/12.jpg", desc: "تشمل كل شيء" },
-
-      { title: "نجوم تيك توك", category: "apps", price: 20, img: "https://i.imgur.com/hVaaPHK.jpeg", desc: "نجوم مباشرة" },
-      { title: "Telegram Premium", category: "apps", price: 5, img: "https://i.imgur.com/1I0RT8Q.jpeg", desc: "شهر بريميوم" },
-      { title: "YouTube Premium", category: "apps", price: 10, img: "https://i.imgur.com/13.jpg", desc: "شهر مجاني" },
-      { title: "Netflix", category: "apps", price: 15, img: "https://i.imgur.com/14.jpg", desc: "شهر UHD" },
-      { title: "Spotify", category: "apps", price: 6, img: "https://i.imgur.com/15.jpg", desc: "بريميوم" },
-      { title: "Apple Music", category: "apps", price: 7, img: "https://i.imgur.com/16.jpg", desc: "آيتونز" },
-      { title: "Google Play", category: "apps", price: 10, img: "https://i.imgur.com/17.jpg", desc: "بطاقات" },
-
-      { title: "منتج أمازون", category: "shopping", price: 60, img: "https://i.imgur.com/KsW7ixX.jpeg", desc: "شحن من Amazon" },
-      { title: "منتج من eBay", category: "shopping", price: 55, img: "https://i.imgur.com/18.jpg", desc: "منتجات نادرة" },
-      { title: "خدمة شراء من شي إن", category: "shopping", price: 45, img: "https://i.imgur.com/19.jpg", desc: "أزياء" },
-      { title: "إلكترونيات من علي إكسبرس", category: "shopping", price: 80, img: "https://i.imgur.com/20.jpg", desc: "طلب خاص" },
-      { title: "بطاقات هدايا", category: "shopping", price: 25, img: "https://i.imgur.com/21.jpg", desc: "Amazon, Google..." },
-      { title: "شحن مباشر لموبايل", category: "shopping", price: 30, img: "https://i.imgur.com/22.jpg", desc: "رصيد دولي" },
-      { title: "خدمة اشتراك شهري", category: "shopping", price: 40, img: "https://i.imgur.com/23.jpg", desc: "صندوق مفاجآت" },
+      { title: "Starlink Standard", img: "https://i.imgur.com/tlLInTH.jpeg", price: 150, category: "starlink", desc: "تنشيط باقة ستاندارد بسرعة ممتازة" },
+      { title: "Starlink Residential", img: "https://i.imgur.com/tZY9Vsy.jpeg", price: 120, category: "starlink", desc: "باقة منزلية مثالية للاستخدام اليومي" },
+      { title: "Starlink Roam", img: "https://i.imgur.com/ZFk7fak.jpeg", price: 130, category: "starlink", desc: "باقة للمستخدمين أثناء التنقل" },
+      { title: "Starlink Business", img: "https://i.imgur.com/h9rBhrk.jpeg", price: 250, category: "starlink", desc: "باقة للشركات بسرعات فائقة" },
+      { title: "Starlink Maritime", img: "https://i.imgur.com/W43nXfw.jpeg", price: 300, category: "starlink", desc: "باقة مخصصة للسفن والمحيطات" },
+      { title: "Starlink Premium", img: "https://i.imgur.com/x0TeILJ.jpeg", price: 450, category: "starlink", desc: "خدمة فائقة السرعة للمؤسسات" },
+      { title: "Starlink RV", img: "https://i.imgur.com/YuhkWcK.jpeg", price: 160, category: "starlink", desc: "خدمة مخصصة للرحلات والمخيمات" },
+      { title: "جواهر فري فاير", img: "https://i.imgur.com/bymTQ3N.jpeg", price: 10, category: "games", desc: "شحن فوري لعدد 100 جوهرة" },
+      { title: "UC ببجي", img: "https://i.imgur.com/yY2BjTa.jpeg", price: 15, category: "games", desc: "شحن شدات ببجي بسعر ممتاز" },
+      { title: "شدات ببجي VIP", img: "https://i.imgur.com/dKItmQl.jpeg", price: 30, category: "games", desc: "باقة كبار الشخصيات" },
+      { title: "بطاقة Roblox", img: "https://i.imgur.com/R3V0gAH.jpeg", price: 12, category: "games", desc: "بطاقة شحن روبلوكس" },
+      { title: "كريستالات Mobile Legends", img: "https://i.imgur.com/H8mMzR1.jpeg", price: 18, category: "games", desc: "شحن كريستالات" },
+      { title: "Steam Wallet", img: "https://i.imgur.com/NcDqzt6.jpeg", price: 25, category: "games", desc: "بطاقة ستيم العالمية" },
+      { title: "نجوم تيكتوك", img: "https://i.imgur.com/hVaaPHK.jpeg", price: 20, category: "apps", desc: "شحن نجوم تيكتوك للحسابات" },
+      { title: "Telegram Premium", img: "https://i.imgur.com/1I0RT8Q.jpeg", price: 5, category: "apps", desc: "نسخة بريميوم شهرية" },
+      { title: "Netflix Premium", img: "https://i.imgur.com/fF7HXiy.jpeg", price: 12, category: "apps", desc: "اشتراك نتفليكس 4K" },
+      { title: "YouTube Premium", img: "https://i.imgur.com/zAFgWjO.jpeg", price: 7, category: "apps", desc: "يوتيوب خالي من الإعلانات" },
+      { title: "Spotify Premium", img: "https://i.imgur.com/w97vryu.jpeg", price: 6, category: "apps", desc: "استمع للموسيقى بلا حدود" },
+      { title: "Discord Nitro", img: "https://i.imgur.com/xOyRZTu.jpeg", price: 10, category: "apps", desc: "مميزات إضافية لحسابك" },
+      { title: "منتج أمازون", img: "https://i.imgur.com/KsW7ixX.jpeg", price: 50, category: "shopping", desc: "طلب وشراء منتجات من أمازون" },
+      { title: "منتج AliExpress", img: "https://i.imgur.com/zMFk6CR.jpeg", price: 35, category: "shopping", desc: "شراء مباشر من AliExpress" },
+      { title: "منتج eBay", img: "https://i.imgur.com/0lCKevs.jpeg", price: 45, category: "shopping", desc: "شراء من eBay بتسهيلات" },
+      { title: "اشتراك Prime", img: "https://i.imgur.com/OcUtKco.jpeg", price: 15, category: "shopping", desc: "Amazon Prime لمدة شهر" },
+      { title: "بطاقة هدايا جوجل", img: "https://i.imgur.com/wIpPrJe.jpeg", price: 25, category: "shopping", desc: "Google Play Gift Card" },
+      { title: "بطاقة آيتونز", img: "https://i.imgur.com/x1KSeIb.jpeg", price: 30, category: "shopping", desc: "iTunes Gift Card" },
     ];
 
-    function showTab(category) {
-      document.querySelectorAll('.tabs-content').forEach(tab => tab.classList.remove('active'));
-      document.getElementById(category).classList.add('active');
-    }
-
-    function loadProducts() {
-      products.forEach(p => {
-        const card = `
-          <div class="card">
+    function renderProducts(cat) {
+      const list = document.getElementById("product-list");
+      list.innerHTML = "";
+      products.filter(p => !cat || p.category === cat).forEach(p => {
+        list.innerHTML += `
+          <div class="product-card">
             <img src="${p.img}" alt="${p.title}" />
-            <div class="card-body">
-              <h3>${p.title}</h3>
-              <p>${p.desc}</p>
-              <strong>$${p.price} = ${(p.price * exchangeRate).toLocaleString()} SDG</strong>
-            </div>
-          </div>`;
-        document.getElementById(p.category).innerHTML += card;
+            <h2>${p.title}</h2>
+            <p>${p.desc}</p>
+            <p><strong>$${p.price} = ${(p.price * exchangeRate).toLocaleString()} SDG</strong></p>
+          </div>
+        `;
       });
     }
 
-    loadProducts();
+    function filterCategory(cat) {
+      renderProducts(cat);
+    }
+
+    renderProducts(); // Load all on start
   </script>
 </body>
 </html>
