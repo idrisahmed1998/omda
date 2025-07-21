@@ -328,7 +328,7 @@ function openModal(product) {
   document.getElementById("modal-desc").textContent = product.desc;
   document.getElementById("modal-price").innerHTML = `<strong>${(product.price * exchangeRate).toLocaleString()} SDG</strong>`;
 
-  const whatsappLink = `https://wa.me/249113833235?text=${encodeURIComponent(`مرحباً، أود طلب المنتج: ${product.title} بسعر $${product.price}`)}`;
+  const whatsappLink = `https://wa.me/249113833235?text=${encodeURIComponent(`مرحباً، أود طلب المنتج: ${product.title} بسعر $${(product.price * exchangeRate).toLocaleString()} SDG`)}`;
 
   // إضافة زر واتساب داخل النافذة
   const modal = document.getElementById("modal");
