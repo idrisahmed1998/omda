@@ -126,24 +126,84 @@
 .top-navbar a:hover img {
   transform: scale(1.2);
 }
+.top-navbar {
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 1.5rem;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+}
+
+.top-navbar .left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #002141;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.top-navbar .left img {
+  width: 24px;
+  height: 24px;
+}
+
+.top-navbar .right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.top-navbar .right a img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
+}
+
+.top-navbar .right a:hover img {
+  transform: scale(1.2);
+}
+
+@media (max-width: 600px) {
+  .top-navbar {
+    justify-content: center;
+  }
+
+  .top-navbar .left span {
+    display: none;
+  }
+
+  .top-navbar .left {
+    justify-content: center;
+  }
+}
 
   </style>
 </head>
 <body>
-  <nav class="top-navbar">
-  <a href="https://wa.me/249113833235" target="_blank" title="واتساب">
-    <img src="https://img.icons8.com/ios-filled/30/25D366/whatsapp.png" alt="واتساب">
-  </a>
-  <a href="https://t.me/omda.store" target="_blank" title="تليجرام">
-    <img src="https://img.icons8.com/ios-filled/30/007AFF/telegram.png" alt="تليجرام">
-  </a>
-  <a href="https://facebook.com/omda.store" target="_blank" title="فيسبوك">
-    <img src="https://img.icons8.com/ios-filled/30/1877F2/facebook--v1.png" alt="فيسبوك">
-  </a>
-  <a href="mailto:omda.store@gmail.com" target="_blank" title="البريد الإلكتروني">
-    <img src="https://img.icons8.com/ios-filled/30/EA4335/gmail-new.png" alt="جيميل">
-  </a>
+<nav class="top-navbar">
+  <div class="left">
+    <img src="https://img.icons8.com/ios-filled/28/002141/shop.png" alt="store" />
+    <span>متجر العمدة</span>
+  </div>
+  <div class="right">
+    <a href="https://wa.me/249113833235" target="_blank" title="واتساب">
+      <img src="https://img.icons8.com/ios-filled/28/25D366/whatsapp.png" alt="واتساب" />
+    </a>
+    <a href="https://t.me/omda.store" target="_blank" title="تليجرام">
+      <img src="https://img.icons8.com/ios-filled/28/007AFF/telegram.png" alt="تليجرام" />
+    </a>
+    <a href="https://facebook.com/omda.store" target="_blank" title="فيسبوك">
+      <img src="https://img.icons8.com/ios-filled/28/1877F2/facebook--v1.png" alt="فيسبوك" />
+    </a>
+    <a href="mailto:omda.store@gmail.com" target="_blank" title="البريد الإلكتروني">
+      <img src="https://img.icons8.com/ios-filled/28/EA4335/gmail-new.png" alt="جيميل" />
+    </a>
+  </div>
 </nav>
+
 
  <header>
   <h1>متجر العمدة</h1>
