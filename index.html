@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>متجر العمدة - Starlink وغيره</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <style>
+    body {
+      font-family: "Cairo", sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+    header {
+      background-color: #111;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      background: #333;
+      padding: 0.5rem;
+    }
+    nav button {
+      background: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    .swiper {
+      width: 90%;
+      margin: 2rem auto;
+    }
+    .swiper-slide {
+      background: #fff;
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .swiper-slide img {
+      max-width: 100%;
+      border-radius: 10px;
+      height: 200px;
+      object-fit: cover;
+    }
+    footer {
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>متجر العمدة</h1>
+    <p>كل الخدمات في مكان واحد</p>
+  </header>
+
+  <nav>
+    <button onclick="filterCategory('starlink')">تنشيط Starlink</button>
+    <button onclick="filterCategory('games')">شحن ألعاب وجواهر</button>
+    <button onclick="filterCategory('apps')">شحن نجوم/تطبيقات</button>
+    <button onclick="filterCategory('shopping')">شراء منتجات أونلاين</button>
+  </nav>
+
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper" id="product-list">
+      <!-- المنتجات تُملأ هنا تلقائياً -->
+    </div>
+  </div>
+
+  <footer>
+    <p>جميع الحقوق محفوظة &copy; العمدة 2025</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const exchangeRate = 580; // سعر الدولار مقابل الجنيه السوداني
+    const products = [
+      { title: "Starlink Standard", img: "https://i.imgur.com/tlLInTH.jpeg", price: 150, category: "starlink", desc: "تنشيط باقة ستاندارد بسرعة ممتازة" },
+      { title: "Starlink Business", img: "https://i.imgur.com/h9rBhrk.jpeg", price: 250, category: "starlink", desc: "باقة للشركات بسرعات فائقة" },
+      { title: "جواهر فري فاير", img: "https://i.imgur.com/bymTQ3N.jpeg", price: 10, category: "games", desc: "شحن فوري لعدد 100 جوهرة" },
+      { title: "نجوم تيكتوك", img: "https://i.imgur.com/hVaaPHK.jpeg", price: 20, category: "apps", desc: "شحن نجوم تيكتوك للحسابات" },
+      { title: "Telegram Premium", img: "https://i.imgur.com/1I0RT8Q.jpeg", price: 5, category: "apps", desc: "نسخة بريميوم شهرية" },
+      { title: "منتج أمازون", img: "https://i.imgur.com/KsW7ixX.jpeg", price: 50, category: "shopping", desc: "طلب وشراء منتجات من أمازون" },
+    ];
+
+    function renderProducts(cat) {
+      const list = document.getElementById("product-list");
+      list.innerHTML = "";
+      products.filter(p => !cat || p.category === cat).forEach(p => {
+        list.innerHTML += `
+          <div class="swiper-slide">
+            <img src="${p.img}" alt="${p.title}" />
+            <h2>${p.title}</h2>
+            <p>${p.desc}</p>
+            <p><strong>$${p.price} = ${(p.price * exchangeRate).toLocaleString()} SDG</strong></p>
+          </div>
+        `;
+      });
+
+      new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        pagination: { el: ".swiper-pagination", clickable: true },
+      });
+    }
+
+    function filterCategory(cat) {
+      renderProducts(cat);
+    }
+
+    renderProducts(); // Load all on start
+  </script>
+</body>
+</html>
