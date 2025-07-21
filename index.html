@@ -35,22 +35,31 @@
       border-radius: 8px;
       font-weight: bold;
     }
-    .swiper {
-      width: 90%;
-      margin: 2rem auto;
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
     }
-    .swiper-slide {
+    .card {
       background: #fff;
-      border-radius: 15px;
-      padding: 1rem;
-      text-align: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .swiper-slide img {
-      max-width: 100%;
       border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 100%;
       height: 200px;
       object-fit: cover;
+    }
+    .card-body {
+      padding: 1rem;
+      text-align: center;
     }
     footer {
       background: #111;
@@ -59,6 +68,8 @@
       padding: 1rem;
       margin-top: 2rem;
     }
+    .tabs-content { display: none; }
+    .tabs-content.active { display: block; }
   </style>
 </head>
 <body>
@@ -68,60 +79,80 @@
   </header>
 
   <nav>
-    <button onclick="filterCategory('starlink')">تنشيط Starlink</button>
-    <button onclick="filterCategory('games')">شحن ألعاب وجواهر</button>
-    <button onclick="filterCategory('apps')">شحن نجوم/تطبيقات</button>
-    <button onclick="filterCategory('shopping')">شراء منتجات أونلاين</button>
+    <button onclick="showTab('starlink')">تنشيط Starlink</button>
+    <button onclick="showTab('games')">شحن ألعاب وجواهر</button>
+    <button onclick="showTab('apps')">شحن تطبيقات ونجوم</button>
+    <button onclick="showTab('shopping')">شراء أونلاين</button>
   </nav>
 
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper" id="product-list">
-      <!-- المنتجات تُملأ هنا تلقائياً -->
-    </div>
+  <div id="tabs">
+    <div id="starlink" class="tabs-content active products"></div>
+    <div id="games" class="tabs-content products"></div>
+    <div id="apps" class="tabs-content products"></div>
+    <div id="shopping" class="tabs-content products"></div>
   </div>
 
   <footer>
     <p>جميع الحقوق محفوظة &copy; العمدة 2025</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
-    const exchangeRate = 580; // سعر الدولار مقابل الجنيه السوداني
+    const exchangeRate = 3500;
     const products = [
-      { title: "Starlink Standard", img: "https://i.imgur.com/tlLInTH.jpeg", price: 150, category: "starlink", desc: "تنشيط باقة ستاندارد بسرعة ممتازة" },
-      { title: "Starlink Business", img: "https://i.imgur.com/h9rBhrk.jpeg", price: 250, category: "starlink", desc: "باقة للشركات بسرعات فائقة" },
-      { title: "جواهر فري فاير", img: "https://i.imgur.com/bymTQ3N.jpeg", price: 10, category: "games", desc: "شحن فوري لعدد 100 جوهرة" },
-      { title: "نجوم تيكتوك", img: "https://i.imgur.com/hVaaPHK.jpeg", price: 20, category: "apps", desc: "شحن نجوم تيكتوك للحسابات" },
-      { title: "Telegram Premium", img: "https://i.imgur.com/1I0RT8Q.jpeg", price: 5, category: "apps", desc: "نسخة بريميوم شهرية" },
-      { title: "منتج أمازون", img: "https://i.imgur.com/KsW7ixX.jpeg", price: 50, category: "shopping", desc: "طلب وشراء منتجات من أمازون" },
+      { title: "Starlink Residential", category: "starlink", price: 110, img: "https://i.imgur.com/1.jpg", desc: "باقة منزلية" },
+      { title: "Starlink Business", category: "starlink", price: 500, img: "https://i.imgur.com/2.jpg", desc: "باقة الشركات" },
+      { title: "Starlink Roam", category: "starlink", price: 150, img: "https://i.imgur.com/3.jpg", desc: "للتنقل" },
+      { title: "Starlink Maritime", category: "starlink", price: 1000, img: "https://i.imgur.com/4.jpg", desc: "للبحر" },
+      { title: "Starlink Global", category: "starlink", price: 200, img: "https://i.imgur.com/5.jpg", desc: "لكل العالم" },
+      { title: "Starlink Priority", category: "starlink", price: 250, img: "https://i.imgur.com/6.jpg", desc: "باقة خاصة" },
+      { title: "Starlink Backup", category: "starlink", price: 120, img: "https://i.imgur.com/7.jpg", desc: "احتياطي" },
+
+      { title: "جواهر فري فاير", category: "games", price: 10, img: "https://i.imgur.com/bymTQ3N.jpeg", desc: "100 جوهرة" },
+      { title: "UC ببجي", category: "games", price: 15, img: "https://i.imgur.com/IDT7PwX.jpeg", desc: "60 UC" },
+      { title: "شدات كول اوف ديوتي", category: "games", price: 12, img: "https://i.imgur.com/8.jpg", desc: "120 CP" },
+      { title: "بطاقات بلاي ستيشن", category: "games", price: 20, img: "https://i.imgur.com/9.jpg", desc: "$20 PSN" },
+      { title: "بطاقات اكس بوكس", category: "games", price: 20, img: "https://i.imgur.com/10.jpg", desc: "$20 Xbox" },
+      { title: "جواهر موبايل ليجند", category: "games", price: 8, img: "https://i.imgur.com/11.jpg", desc: "100 Diamond" },
+      { title: "باقة الألعاب المتنوعة", category: "games", price: 30, img: "https://i.imgur.com/12.jpg", desc: "تشمل كل شيء" },
+
+      { title: "نجوم تيك توك", category: "apps", price: 20, img: "https://i.imgur.com/hVaaPHK.jpeg", desc: "نجوم مباشرة" },
+      { title: "Telegram Premium", category: "apps", price: 5, img: "https://i.imgur.com/1I0RT8Q.jpeg", desc: "شهر بريميوم" },
+      { title: "YouTube Premium", category: "apps", price: 10, img: "https://i.imgur.com/13.jpg", desc: "شهر مجاني" },
+      { title: "Netflix", category: "apps", price: 15, img: "https://i.imgur.com/14.jpg", desc: "شهر UHD" },
+      { title: "Spotify", category: "apps", price: 6, img: "https://i.imgur.com/15.jpg", desc: "بريميوم" },
+      { title: "Apple Music", category: "apps", price: 7, img: "https://i.imgur.com/16.jpg", desc: "آيتونز" },
+      { title: "Google Play", category: "apps", price: 10, img: "https://i.imgur.com/17.jpg", desc: "بطاقات" },
+
+      { title: "منتج أمازون", category: "shopping", price: 60, img: "https://i.imgur.com/KsW7ixX.jpeg", desc: "شحن من Amazon" },
+      { title: "منتج من eBay", category: "shopping", price: 55, img: "https://i.imgur.com/18.jpg", desc: "منتجات نادرة" },
+      { title: "خدمة شراء من شي إن", category: "shopping", price: 45, img: "https://i.imgur.com/19.jpg", desc: "أزياء" },
+      { title: "إلكترونيات من علي إكسبرس", category: "shopping", price: 80, img: "https://i.imgur.com/20.jpg", desc: "طلب خاص" },
+      { title: "بطاقات هدايا", category: "shopping", price: 25, img: "https://i.imgur.com/21.jpg", desc: "Amazon, Google..." },
+      { title: "شحن مباشر لموبايل", category: "shopping", price: 30, img: "https://i.imgur.com/22.jpg", desc: "رصيد دولي" },
+      { title: "خدمة اشتراك شهري", category: "shopping", price: 40, img: "https://i.imgur.com/23.jpg", desc: "صندوق مفاجآت" },
     ];
 
-    function renderProducts(cat) {
-      const list = document.getElementById("product-list");
-      list.innerHTML = "";
-      products.filter(p => !cat || p.category === cat).forEach(p => {
-        list.innerHTML += `
-          <div class="swiper-slide">
+    function showTab(category) {
+      document.querySelectorAll('.tabs-content').forEach(tab => tab.classList.remove('active'));
+      document.getElementById(category).classList.add('active');
+    }
+
+    function loadProducts() {
+      products.forEach(p => {
+        const card = `
+          <div class="card">
             <img src="${p.img}" alt="${p.title}" />
-            <h2>${p.title}</h2>
-            <p>${p.desc}</p>
-            <p><strong>$${p.price} = ${(p.price * exchangeRate).toLocaleString()} SDG</strong></p>
-          </div>
-        `;
-      });
-
-      new Swiper(".mySwiper", {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        pagination: { el: ".swiper-pagination", clickable: true },
+            <div class="card-body">
+              <h3>${p.title}</h3>
+              <p>${p.desc}</p>
+              <strong>$${p.price} = ${(p.price * exchangeRate).toLocaleString()} SDG</strong>
+            </div>
+          </div>`;
+        document.getElementById(p.category).innerHTML += card;
       });
     }
 
-    function filterCategory(cat) {
-      renderProducts(cat);
-    }
-
-    renderProducts(); // Load all on start
+    loadProducts();
   </script>
 </body>
 </html>
