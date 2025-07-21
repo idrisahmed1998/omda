@@ -177,7 +177,7 @@
           <img src="${p.img}" alt="${p.title}" />
           <h2>${p.title}</h2>
           <p>${p.desc}</p>
-          <p><strong>$${p.price} = ${(p.price * exchangeRate).toLocaleString()} SDG</strong></p>
+          <p><strong>$${(p.price * exchangeRate).toLocaleString()} SDG</strong></p>
         `;
         card.onclick = () => openModal(p);
         list.appendChild(card);
