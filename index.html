@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+  
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -106,19 +107,54 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    .top-navbar {
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.top-navbar img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
+}
+
+.top-navbar a:hover img {
+  transform: scale(1.2);
+}
+
   </style>
 </head>
 <body>
+  <nav class="top-navbar">
+  <a href="https://wa.me/249113833235" target="_blank" title="واتساب">
+    <img src="https://img.icons8.com/ios-filled/30/25D366/whatsapp.png" alt="واتساب">
+  </a>
+  <a href="https://t.me/omda.store" target="_blank" title="تليجرام">
+    <img src="https://img.icons8.com/ios-filled/30/007AFF/telegram.png" alt="تليجرام">
+  </a>
+  <a href="https://facebook.com/omda.store" target="_blank" title="فيسبوك">
+    <img src="https://img.icons8.com/ios-filled/30/1877F2/facebook--v1.png" alt="فيسبوك">
+  </a>
+  <a href="mailto:omda.store@gmail.com" target="_blank" title="البريد الإلكتروني">
+    <img src="https://img.icons8.com/ios-filled/30/EA4335/gmail-new.png" alt="جيميل">
+  </a>
+</nav>
+
  <header>
   <h1>متجر العمدة</h1>
   <p>كل الخدمات في مكان واحد</p>
   <p style="margin-top: 0.5rem; font-size: 0.95rem; color: #ddd;">
-    ⚠️ جميع الأسعار تقريبية، الرجاء التواصل معنا لمعرفة السعر الحقيقي.
+     جميع الأسعار تقريبية، الرجاء التواصل معنا لمعرفة السعر الحقيقي.
   </p>
   <a href="https://wa.me/249113833235?text=مرحباً، أود الاستفسار عن خدمة أو منتج من متجر العمدة" 
      target="_blank"
      style="display: inline-block; margin-top: 1rem; background: #25D366; color: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-weight: bold;">
-    💬 تواصل معنا على واتساب
+     تواصل معنا على واتساب
   </a>
 </header>
 
