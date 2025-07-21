@@ -140,7 +140,7 @@
   <script>
     const exchangeRate = 3500; // سعر الدولار مقابل الجنيه السوداني
     const products = [
-      { title: "اشتراك شهري", img: "pic2.webp", price: 110, category: "starlink", desc: "إشتراك شهري /يورو /دولار" },
+      { title: "اشتراك شهري", img: "pic2.webp", price: 100, category: "starlink", desc: "إشتراك شهري /يورو /دولار" },
       { title: "Starlink Standard", img: "pic1.webp", price: 150, category: "starlink", desc: "تنشيط باقة ستاندارد بسرعة ممتازة" },
       { title: "Starlink Residential", img: "pic2.webp", price: 120, category: "starlink", desc: "باقة منزلية مثالية للاستخدام اليومي" },
       { title: "Starlink Roam", img: "pic1.webp", price: 130, category: "starlink", desc: "باقة للمستخدمين أثناء التنقل" },
@@ -189,7 +189,7 @@ function openModal(product) {
   document.getElementById("modal-img").src = product.img;
   document.getElementById("modal-title").textContent = product.title;
   document.getElementById("modal-desc").textContent = product.desc;
-  document.getElementById("modal-price").innerHTML = `<strong>$${product.price} = ${(product.price * exchangeRate).toLocaleString()} SDG</strong>`;
+  document.getElementById("modal-price").innerHTML = `<strong>${(product.price * exchangeRate).toLocaleString()} SDG</strong>`;
 
   const whatsappLink = `https://wa.me/249113833235?text=${encodeURIComponent(`مرحباً، أود طلب المنتج: ${product.title} بسعر $${product.price}`)}`;
 
